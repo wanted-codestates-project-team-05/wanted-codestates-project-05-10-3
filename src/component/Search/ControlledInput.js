@@ -56,6 +56,12 @@ const ControlledInput = () => {
       }, 800);
       setTimer(newTimer);
     };
+    const renderFetchData = () => {
+      if (localData.length === 0 && input && isSuccess && data) {
+        return data.map((recommend) =>
+          <h1 key={recommend.id}>{recommend.name}</h1>);
+      }
+    };
 
     return (
       <>
@@ -63,8 +69,7 @@ const ControlledInput = () => {
         {isLoading && 'Loading...'}
         {isError && error.message}
         {localData.length > 0 && localData.map((recommend) => <h1 key={recommend.id}>{recommend.name}</h1>)}
-        {localData.length === 0 && isSuccess && input && data.map((recommend) =>
-          <h1 key={recommend.id}>{recommend.name}</h1>)}
+        {renderFetchData()}
       </>
     );
   }
