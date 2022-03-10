@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGetRecommendsQuery } from '../../service/recomments';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 const ControlledInput = () => {
   const [input, setInput] = useState();
+  const [localRecommends, setLocalRecommends] = useLocalStorage('localRecommends');
   const { data, error, isLoading, isSuccess, isError } = useGetRecommendsQuery(input);
+  useEffect(() => {
+    setLocalRecommends({ searchWord: input, recommends: data });
+  }, [data]);
   const handleChange = async (event) => {
     setInput(event.target.value);
   };
