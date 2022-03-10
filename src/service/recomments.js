@@ -8,7 +8,6 @@ export const recommendsApi = createApi({
   }),
   endpoints: (builder) => ({
     getRecommends: builder.query({
-      //query 추가필요
       query: (searchWord) => `/api/v1/search-conditions/?name=${searchWord}`,
       keepUnusedDataFor: 5
     })
