@@ -24,6 +24,7 @@ const Container = styled.div`
 
 const TextWrapper = styled.div`
   width: 670px;
+<<<<<<< HEAD
   font-size: 34px;
   font-weight: 700;
   height: 108.781px;
@@ -31,6 +32,15 @@ const TextWrapper = styled.div`
   line-height: 54.4px;
   margin-bottom: 20px;
   text-align: center;
+=======
+  font-size 34px;
+  font-weight 700;
+  height 108.781px;
+  letter-spacing -0.612px;
+  line-height 54.4px;
+  margin-bottom 20px;
+  text-align center;
+>>>>>>> 2e33adf (feat: 기본적인 대문 디자인 및 input 컴포넌트 기본 기능)
 `;
 
 export default Search;
