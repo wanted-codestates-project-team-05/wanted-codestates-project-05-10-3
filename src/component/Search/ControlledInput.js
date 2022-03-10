@@ -7,7 +7,9 @@ const ControlledInput = () => {
     const [localRecommends, setLocalRecommends] = useLocalStorage('localRecommends', []);
     const [timer, setTimer] = useState(0);
     const [searchWord, setSearchWord] = useState();
+    const [localData, setLocalData] = useState([]);
     const { data, error, isLoading, isSuccess, isError } = useGetRecommendsQuery(searchWord);
+
     useEffect(() => {
       if (searchWord && data) {
         if (localRecommends.length > 5) {
@@ -15,16 +17,16 @@ const ControlledInput = () => {
           newLocalRecommends.shift();
           setLocalRecommends(newLocalRecommends);
         }
-        let saveData = true;
+        let isData = true;
         if (localRecommends.length >= 1) {
           localRecommends.forEach((recommend) => {
-            if (recommend.searchWord.replace(/(\s*)/g, "") === searchWord.replace(/(\s*)/g, "")) {
-              saveData = false;
+            if (recommend.searchWord === searchWord.trim()) {
+              isData = false;
             }
           });
         }
-        saveData && setLocalRecommends([...localRecommends, {
-          searchWord: searchWord,
+        isData && setLocalRecommends([...localRecommends, {
+          searchWord: searchWord.trim(),
           recommends: data
         }]);
       }
@@ -35,9 +37,21 @@ const ControlledInput = () => {
       if (timer) {
         clearTimeout(timer);
       }
-      const newTimer = setTimeout(() => {
-        if (event.target.value !== '') {
-          setSearchWord(event.target.value);
+      const newTimer = setTimeout(async () => {
+        const value = event.target.value;
+        if (value !== '') {
+          let isData = false;
+          if (localRecommends.length >= 1) {
+            localRecommends.forEach((recommend) => {
+              recommend.searchWord === value.trim() && (isData = recommend.recommends);
+            });
+          }
+          if (isData) {
+            setLocalData(isData);
+          } else {
+            setLocalData([]);
+            setSearchWord(value);
+          }
         }
       }, 800);
       setTimer(newTimer);
@@ -48,7 +62,9 @@ const ControlledInput = () => {
         <input type="text" onChange={handleChange} />
         {isLoading && 'Loading...'}
         {isError && error.message}
-        {isSuccess && data && input && data.map((recommend) => <h1 key={recommend.id}>{recommend.name}</h1>)}
+        {localData.length > 0 && localData.map((recommend) => <h1 key={recommend.id}>{recommend.name}</h1>)}
+        {localData.length === 0 && isSuccess && input && data.map((recommend) =>
+          <h1 key={recommend.id}>{recommend.name}</h1>)}
       </>
     );
   }
