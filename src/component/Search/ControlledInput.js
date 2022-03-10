@@ -10,12 +10,20 @@ const ControlledInput = () => {
     const { data, error, isLoading, isSuccess, isError } = useGetRecommendsQuery(searchWord);
     useEffect(() => {
       if (searchWord && data) {
-        if (localRecommends.length > 2) {
+        if (localRecommends.length > 5) {
           let newLocalRecommends = localRecommends;
           newLocalRecommends.shift();
           setLocalRecommends(newLocalRecommends);
         }
-        setLocalRecommends([...localRecommends, {
+        let saveData = true;
+        if (localRecommends.length >= 1) {
+          localRecommends.forEach((recommend) => {
+            if (recommend.searchWord.replace(/(\s*)/g, "") === searchWord.replace(/(\s*)/g, "")) {
+              saveData = false;
+            }
+          });
+        }
+        saveData && setLocalRecommends([...localRecommends, {
           searchWord: searchWord,
           recommends: data
         }]);
