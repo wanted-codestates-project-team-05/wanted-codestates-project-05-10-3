@@ -30,7 +30,7 @@ const ControlledInput = () => {
           recommends: data
         }]);
       }
-    }, [data]);
+    }, [data, localRecommends, searchWord, setLocalRecommends]);
 
     const handleChange = async (event) => {
       setInput(event.target.value);
