@@ -181,6 +181,7 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
             onChange={handleChange}
             value={autoValue || inputValue}
             onFocus={() => setFocus(true)}
+            onBlur={() => setFocus(false)}
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}
           />
