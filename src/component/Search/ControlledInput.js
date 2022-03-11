@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useGetRecommendsQuery } from '../../service/recomments';
-import useLocalStorage from '../../hooks/useLocalStorage';
+import useSessionStorage from '../../hooks/useSessionStorage';
 
 const ControlledInput = () => {
     const [input, setInput] = useState();
-    const [localRecommends, setLocalRecommends] = useLocalStorage('localRecommends', []);
+    const [localRecommends, setLocalRecommends] = useSessionStorage('localRecommends', []);
     const [timer, setTimer] = useState(0);
     const [searchWord, setSearchWord] = useState();
     const [localData, setLocalData] = useState([]);
