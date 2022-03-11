@@ -13,7 +13,7 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
   const [timer, setTimer] = useState(0);
   const [searchWord, setSearchWord] = useState();
   const [localData, setLocalData] = useState([]);
-  const { data, error, isLoading, isSuccess, isError } = useGetRecommendsQuery(searchWord);
+  const { data, isLoading, isSuccess, isError } = useGetRecommendsQuery(searchWord);
   const [isLocalLoading, setIsLocalLoading] = useState(false);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
         recommends: data
       }]);
     }
-  }, [data, localRecommends, searchWord, setLocalRecommends]);
+  }, [localRecommends, setLocalRecommends, data]);
   useEffect(() => {
     data && data.length !== 0 && setAutoValue(data[index]?.name);
   }, [data, index]);
@@ -184,6 +184,7 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
               {renderLocalData()}
             </>
           )}
+          {isError && <First>데이터를 불러오던 중 에러가 발생했습니다:(</First>}
         </Recommend>
       )}
     </Div>
