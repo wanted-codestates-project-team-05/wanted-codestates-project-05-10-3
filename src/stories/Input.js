@@ -13,7 +13,7 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
   const [timer, setTimer] = useState(0);
   const [searchWord, setSearchWord] = useState();
   const [localData, setLocalData] = useState([]);
-  const { data, isLoading, isSuccess, isError } = useGetRecommendsQuery(searchWord);
+  const { data, isSuccess, isError } = useGetRecommendsQuery(searchWord);
   const [isLocalLoading, setIsLocalLoading] = useState(false);
 
   useEffect(() => {
@@ -31,10 +31,14 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
           }
         });
       }
-      isData && setLocalRecommends([...localRecommends, {
-        searchWord: searchWord.trim(),
-        recommends: data
-      }]);
+      isData &&
+        setLocalRecommends([
+          ...localRecommends,
+          {
+            searchWord: searchWord.trim(),
+            recommends: data,
+          },
+        ]);
     }
   }, [localRecommends, setLocalRecommends, data]);
   useEffect(() => {
@@ -93,48 +97,54 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
   };
   const renderFetchData = () => {
     if (localData.length === 0 && inputValue && isSuccess && data) {
-      return (data.map((item, idx) =>
-        <List
-          key={idx}
-          selected={index === idx}
-          onClick={() => {
-            setInputValue(item.name);
-            setAutoValue('');
-            setFocus(false);
-          }}
-        >
-          <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M6.56 0a6.56 6.56 0 015.255 10.49L16 14.674 14.675 16l-4.186-4.184A6.56 6.56 0 116.561 0zm0 1.875a4.686 4.686 0 100 9.372 4.686 4.686 0 000-9.372z"
-              fill="#32383E"
-            />
-          </svg>
-          {item.name}
-        </List>
-      ));
+      return data.map((item, idx) => {
+        if (idx > 5 && !modal) return null;
+        return (
+          <List
+            key={idx}
+            selected={index === idx}
+            onClick={() => {
+              setInputValue(item.name);
+              setAutoValue('');
+              setFocus(false);
+            }}
+          >
+            <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M6.56 0a6.56 6.56 0 015.255 10.49L16 14.674 14.675 16l-4.186-4.184A6.56 6.56 0 116.561 0zm0 1.875a4.686 4.686 0 100 9.372 4.686 4.686 0 000-9.372z"
+                fill="#32383E"
+              />
+            </svg>
+            {item.name}
+          </List>
+        );
+      });
     }
   };
   const renderLocalData = () => {
     if (localData.length > 0) {
-      return (localData.map((item, idx) =>
-        <List
-          key={idx}
-          selected={index === idx}
-          onClick={() => {
-            setInputValue(item.name);
-            setAutoValue('');
-            setFocus(false);
-          }}
-        >
-          <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M6.56 0a6.56 6.56 0 015.255 10.49L16 14.674 14.675 16l-4.186-4.184A6.56 6.56 0 116.561 0zm0 1.875a4.686 4.686 0 100 9.372 4.686 4.686 0 000-9.372z"
-              fill="#32383E"
-            />
-          </svg>
-          {item.name}
-        </List>
-      ));
+      return localData.map((item, idx) => {
+        if (idx > 5 && !modal) return null;
+        return (
+          <List
+            key={idx}
+            selected={index === idx}
+            onClick={() => {
+              setInputValue(item.name);
+              setAutoValue('');
+              setFocus(false);
+            }}
+          >
+            <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M6.56 0a6.56 6.56 0 015.255 10.49L16 14.674 14.675 16l-4.186-4.184A6.56 6.56 0 116.561 0zm0 1.875a4.686 4.686 0 100 9.372 4.686 4.686 0 000-9.372z"
+                fill="#32383E"
+              />
+            </svg>
+            {item.name}
+          </List>
+        );
+      });
     }
   };
 
@@ -163,6 +173,7 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
             </svg>
           </SearchIcon>
           <SearchInput
+            autoFocus={modal}
             modal={modal}
             placeholder={label}
             onChange={handleChange}
@@ -176,8 +187,8 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
       </Container>
       {focus && inputValue && (
         <Recommend modal={modal}>
-          {isLoading && <LoadingText>검색 중...</LoadingText>}
-          {!isLoading && (
+          {isLocalLoading && <LoadingText>검색 중...</LoadingText>}
+          {!isLocalLoading && (
             <>
               <First>추천 검색어</First>
               {renderFetchData()}
@@ -196,7 +207,7 @@ Input.propTypes = {
   backgroundColor: PropTypes.string,
   buttonColor: PropTypes.string,
   setModal: PropTypes.func.isRequired,
-  modal: PropTypes.bool
+  modal: PropTypes.bool,
 };
 
 const Div = styled.div`
@@ -212,12 +223,12 @@ const Container = styled.div`
   display: flex;
 
   ${(props) =>
-  props.modal
-    ? `width: 100%; 
+    props.modal
+      ? `width: 100%; 
   height: 56px; 
   padding: 0 20px;
   border-bottom: 2px solid #007be9;`
-    : 'height: 70px'};
+      : 'height: 70px'};
 
   align-items: center;
 
@@ -291,12 +302,12 @@ const Recommend = styled.ul`
   box-sizing: border-box;
   position: absolute;
   ${(props) =>
-  props.modal
-    ? `
+    props.modal
+      ? `
     width: 100%;
     top: 56px;
   `
-    : `
+      : `
   width: 670px;
   top: 80px;
   `};
