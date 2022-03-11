@@ -1,4 +1,8 @@
 ## Description
+
+### 배포 주소
+https://wanted-codestates-project-team-05.github.io/wanted-codestates-project-05-10-3/
+
 검색창 ui 및 검색어 추천 기능을 개발하는 프로젝트입니다.
 팀원 : 2명(성현, 윤구)
 
@@ -64,3 +68,29 @@ npm run start
    
 - onChange 이벤트가 멈췄을 때, 특정 시간이 지난후 검색 알고리즘이 진행되도록 개발하고 싶었다. 처음에는 멈춤에 집중에서 debounce 개념을 떠올리지 못했는데, debounce를 통해 마지막 onChange 이벤트가 발생한 후에 검색 알고리즘이 진행되도록 하여 성능 최적화를 진행할 수 있었다. 
 - 리덕스 툴킷을 처음써봐서 조금 어색했는데, 리덕스로 개발할 떄 보다 코드량도 적고 비동기 처리도 쉬워서 좋았다. 
+
+## <윤구님>
+
+### src/stories/input.js & src/stories/input.stories.js
+
+## 반응형 디자인 & 추천 검색어 리스트 키보드 이벤트
+
+- styled-componets의 props와 media query를 이용하여 반응형 디자인 제작
+- 키보드 이벤트를 이용해 추천 검색어 리스트 이동 가능
+
+- 반응형 디자인
+  ![responsive](https://user-images.githubusercontent.com/85268135/157805724-0ec17e50-107b-4932-988f-5c7f7a00822c.gif)
+
+- 키보드 이벤트
+  ![move](https://user-images.githubusercontent.com/85268135/157805726-6059d6cb-081b-4c81-bb8c-32982ebed431.gif)
+
+- 화면이 작을 때 검색창 디자인
+  ![tablet](https://user-images.githubusercontent.com/85268135/157805845-3ef5c4b2-1b2d-4539-b6d4-b4ef00e814f0.gif)
+
+### 개발 중 어려웠던 점 && 해결
+
+- 어려웠던 점: src/stories/input.js 컴포넌트를 제작하며 storybook을 활용하며 시행착오를 겪었습니다. docs를 읽고 튜토리얼 및 자료를 찾아보며 개념을 익히고 다른 사람이 내 컴포넌트를 간단하게 활용할 수 있게 만드려고 노력했습니다.
+
+- 팀원과 코드를 합치면서 예상치 못한 버그가 발생하여 팀원과 같이 코드를 살피며 버그를 해결했습니다.
+
+- 재사용 가능한 컴포넌트를 제작하고자 최대한 외부 state에 영항을 받지 않고 내부 state로 해결하고자 했지만 아직 부족한 점이 많다고 생각합니다. 전역 상태 관리 라이브러리를 쓰며 storybook에도 문제가 발생하였습니다. 지금은 이 문제를 해결하지 못하여 더 학습이 필요합니다.
