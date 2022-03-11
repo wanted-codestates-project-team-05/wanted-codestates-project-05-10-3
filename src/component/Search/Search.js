@@ -24,13 +24,13 @@ const Container = styled.div`
 
 const TextWrapper = styled.div`
   width: 670px;
-  font-size 34px;
-  font-weight 700;
-  height 108.781px;
-  letter-spacing -0.612px;
-  line-height 54.4px;
-  margin-bottom 20px;
-  text-align center;
+  font-size: 34px;
+  font-weight: 700;
+  height: 108.781px;
+  letter-spacing: -0.612px;
+  line-height: 54.4px;
+  margin-bottom: 20px;
+  text-align: center;
 `;
 
 export default Search;
