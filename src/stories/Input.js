@@ -36,7 +36,7 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
         recommends: data
       }]);
     }
-  }, [data, localRecommends, searchWord, setLocalRecommends]);
+  }, [localRecommends, setLocalRecommends, data]);
   useEffect(() => {
     data && data.length !== 0 && setAutoValue(data[index]?.name);
   }, [data, index]);
