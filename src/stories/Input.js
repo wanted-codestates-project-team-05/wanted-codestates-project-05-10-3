@@ -42,8 +42,12 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
     }
   }, [localRecommends, setLocalRecommends, data]);
   useEffect(() => {
-    data && data.length !== 0 && setAutoValue(data[index]?.name);
-  }, [data, index]);
+    if (localData?.length) {
+      setAutoValue(localData[index]?.name);
+    } else if (data?.length) {
+      setAutoValue(data[index]?.name);
+    }
+  }, [data, index, localData]);
   const handleChange = async (event) => {
     setInputValue(event.target.value);
     setAutoValue('');
@@ -75,11 +79,19 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setIndex((prev) => (prev === null ? data.length - 1 : prev === 0 ? null : prev - 1));
+      if (!modal) {
+        setIndex((prev) => (prev === null ? 5 : prev === 0 ? null : prev - 1));
+      } else {
+        setIndex((prev) => (prev === null ? data.length - 1 : prev === 0 ? null : prev - 1));
+      }
     }
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setIndex((prev) => (prev === null ? 0 : prev === data.length - 1 ? null : prev + 1));
+      if (!modal) {
+        setIndex((prev) => (prev === null ? 0 : prev === 5 ? null : prev + 1));
+      } else {
+        setIndex((prev) => (prev === null ? 0 : prev === data.length - 1 ? null : prev + 1));
+      }
     }
   };
   const handleKeyUp = (e) => {
@@ -163,6 +175,7 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
             onChange={handleChange}
             value={autoValue || inputValue}
             onFocus={() => setFocus(true)}
+            onBlur={() => setFocus(false)}
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}
           />
