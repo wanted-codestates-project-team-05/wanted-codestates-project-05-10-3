@@ -13,11 +13,7 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
   const [timer, setTimer] = useState(0);
   const [searchWord, setSearchWord] = useState();
   const [localData, setLocalData] = useState([]);
-<<<<<<< HEAD
   const { data, isSuccess, isError } = useGetRecommendsQuery(searchWord);
-=======
-  const { data, isLoading, isSuccess, isError } = useGetRecommendsQuery(searchWord);
->>>>>>> 5a0617d3fd79e6f52621360b22f0712e2b951a8f
   const [isLocalLoading, setIsLocalLoading] = useState(false);
 
   useEffect(() => {
@@ -35,7 +31,6 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
           }
         });
       }
-<<<<<<< HEAD
       isData &&
         setLocalRecommends([
           ...localRecommends,
@@ -44,12 +39,6 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
             recommends: data,
           },
         ]);
-=======
-      isData && setLocalRecommends([...localRecommends, {
-        searchWord: searchWord.trim(),
-        recommends: data
-      }]);
->>>>>>> 5a0617d3fd79e6f52621360b22f0712e2b951a8f
     }
   }, [localRecommends, setLocalRecommends, data]);
   useEffect(() => {
@@ -106,17 +95,11 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
       setModal(true);
     }
   };
-<<<<<<< HEAD
 
   const makeList = (data) => {
     return data.map((item, idx) => {
       if (idx > 5 && !modal) return null;
       return (
-=======
-  const renderFetchData = () => {
-    if (localData.length === 0 && inputValue && isSuccess && data) {
-      return (data.map((item, idx) =>
->>>>>>> 5a0617d3fd79e6f52621360b22f0712e2b951a8f
         <List
           key={idx}
           selected={index === idx}
@@ -134,7 +117,6 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
           </svg>
           {item.name}
         </List>
-<<<<<<< HEAD
       );
     });
   };
@@ -142,36 +124,11 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
   const renderFetchData = () => {
     if (localData.length === 0 && inputValue && isSuccess && data) {
       return makeList(data);
-=======
-      ));
->>>>>>> 5a0617d3fd79e6f52621360b22f0712e2b951a8f
     }
   };
   const renderLocalData = () => {
     if (localData.length > 0) {
-<<<<<<< HEAD
       return makeList(localData);
-=======
-      return (localData.map((item, idx) =>
-        <List
-          key={idx}
-          selected={index === idx}
-          onClick={() => {
-            setInputValue(item.name);
-            setAutoValue('');
-            setFocus(false);
-          }}
-        >
-          <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M6.56 0a6.56 6.56 0 015.255 10.49L16 14.674 14.675 16l-4.186-4.184A6.56 6.56 0 116.561 0zm0 1.875a4.686 4.686 0 100 9.372 4.686 4.686 0 000-9.372z"
-              fill="#32383E"
-            />
-          </svg>
-          {item.name}
-        </List>
-      ));
->>>>>>> 5a0617d3fd79e6f52621360b22f0712e2b951a8f
     }
   };
 
@@ -200,10 +157,7 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
             </svg>
           </SearchIcon>
           <SearchInput
-<<<<<<< HEAD
             autoFocus={modal}
-=======
->>>>>>> 5a0617d3fd79e6f52621360b22f0712e2b951a8f
             modal={modal}
             placeholder={label}
             onChange={handleChange}
@@ -217,13 +171,8 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
       </Container>
       {focus && inputValue && (
         <Recommend modal={modal}>
-<<<<<<< HEAD
           {isLocalLoading && <LoadingText>검색 중...</LoadingText>}
           {!isLocalLoading && (
-=======
-          {isLoading && <LoadingText>검색 중...</LoadingText>}
-          {!isLoading && (
->>>>>>> 5a0617d3fd79e6f52621360b22f0712e2b951a8f
             <>
               <First>추천 검색어</First>
               {renderFetchData()}
@@ -242,11 +191,7 @@ Input.propTypes = {
   backgroundColor: PropTypes.string,
   buttonColor: PropTypes.string,
   setModal: PropTypes.func.isRequired,
-<<<<<<< HEAD
   modal: PropTypes.bool,
-=======
-  modal: PropTypes.bool
->>>>>>> 5a0617d3fd79e6f52621360b22f0712e2b951a8f
 };
 
 const Div = styled.div`
@@ -262,21 +207,12 @@ const Container = styled.div`
   display: flex;
 
   ${(props) =>
-<<<<<<< HEAD
     props.modal
       ? `width: 100%; 
   height: 56px; 
   padding: 0 20px;
   border-bottom: 2px solid #007be9;`
       : 'height: 70px'};
-=======
-  props.modal
-    ? `width: 100%; 
-  height: 56px; 
-  padding: 0 20px;
-  border-bottom: 2px solid #007be9;`
-    : 'height: 70px'};
->>>>>>> 5a0617d3fd79e6f52621360b22f0712e2b951a8f
 
   align-items: center;
 
@@ -350,21 +286,12 @@ const Recommend = styled.ul`
   box-sizing: border-box;
   position: absolute;
   ${(props) =>
-<<<<<<< HEAD
     props.modal
       ? `
     width: 100%;
     top: 56px;
   `
       : `
-=======
-  props.modal
-    ? `
-    width: 100%;
-    top: 56px;
-  `
-    : `
->>>>>>> 5a0617d3fd79e6f52621360b22f0712e2b951a8f
   width: 670px;
   top: 80px;
   `};
