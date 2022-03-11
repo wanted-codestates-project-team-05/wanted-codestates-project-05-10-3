@@ -42,6 +42,9 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
     }
   }, [localRecommends, setLocalRecommends, data]);
   useEffect(() => {
+    setIndex(null);
+  }, [inputValue]);
+  useEffect(() => {
     if (localData?.length) {
       setAutoValue(localData[index]?.name);
     } else if (data?.length) {
@@ -82,7 +85,8 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
       if (!modal) {
         setIndex((prev) => (prev === null ? 5 : prev === 0 ? null : prev - 1));
       } else {
-        setIndex((prev) => (prev === null ? data.length - 1 : prev === 0 ? null : prev - 1));
+        const list = localData.length !== 0 ? localData : data;
+        setIndex((prev) => (prev === null ? list.length - 1 : prev === 0 ? null : prev - 1));
       }
     }
     if (e.key === 'ArrowDown') {
@@ -90,7 +94,8 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
       if (!modal) {
         setIndex((prev) => (prev === null ? 0 : prev === 5 ? null : prev + 1));
       } else {
-        setIndex((prev) => (prev === null ? 0 : prev === data.length - 1 ? null : prev + 1));
+        const list = localData.length !== 0 ? localData : data;
+        setIndex((prev) => (prev === null ? 0 : prev === list.length - 1 ? null : prev + 1));
       }
     }
   };
@@ -118,6 +123,7 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
           onClick={() => {
             setInputValue(item.name);
             setAutoValue('');
+            console.log('first');
             setFocus(false);
           }}
         >
@@ -183,7 +189,7 @@ export default function Input({ label, backgroundColor, buttonColor, setModal, m
         {modal || <Button buttonColor={buttonColor}>검색</Button>}
       </Container>
       {focus && inputValue && (
-        <Recommend modal={modal}>
+        <Recommend modal={modal} onBlur={() => setFocus(false)}>
           {isLocalLoading && <LoadingText>검색 중...</LoadingText>}
           {!isLocalLoading && (
             <>
